@@ -6,11 +6,16 @@ const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
+const $menu = document.querySelector('#chat-icon')
+const $sidebar = document.querySelector('#chat-headSide')
+const $overlay = document.querySelector('#overlay')
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+const headerTemplate = document.querySelector('#header-template').innerHTML
+const headerSideTemplate = document.querySelector('#header-side-template').innerHTML
 
 // options
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -39,8 +44,8 @@ const autoScroll = () => {
 }
 
 socket.on('message', (message) => {
-    console.log(message)
     const html = Mustache.render(messageTemplate, {
+        class: username.toLowerCase() === message.username.toLowerCase() ? 'message message__reciever' : 'message',
         username: message.username,
         message: message.text,
         createdAt: moment(message.createdAt).format('h:mm a')
@@ -50,8 +55,8 @@ socket.on('message', (message) => {
 })
 
 socket.on('locationMessage', (message) => {
-    console.log(message)
     const html = Mustache.render(locationMessageTemplate, {
+        class: username.toLowerCase() === message.username.toLowerCase() ? 'message message__reciever' : 'message',
         username: message.username,
         url: message.url,
         createdAt: moment(message.createdAt).format('h:mm a')
@@ -65,7 +70,15 @@ socket.on('roomData', ({ room, users }) => {
         room,
         users
     })
+    const htmlHead = Mustache.render(headerTemplate, {
+        room
+    })
+    const htmlSide = Mustache.render(headerSideTemplate , {
+        users
+    })
     document.querySelector('#sidebar').innerHTML = html
+    document.querySelector('#header').innerHTML = htmlHead
+    document.querySelector('#chat-headSide').innerHTML = htmlSide
 })
 
 $messageForm.addEventListener('submit', (e) => {
@@ -86,6 +99,25 @@ $messageForm.addEventListener('submit', (e) => {
 
         console.log('Message delivered!')
     })
+})
+
+$menu.addEventListener('click', () => {
+    if($sidebar.style.left === '-250px') {
+        $sidebar.style.left = '0'
+        $overlay.style.display = 'block'
+    } else {
+        $sidebar.style.left = '-250px'
+        setTimeout(() => {
+            $overlay.style.display = 'none'
+        }, 300)
+    }
+})
+
+$overlay.addEventListener('click', () => {
+    $sidebar.style.left = '-250px'
+    setTimeout(() => {
+        $overlay.style.display = 'none'
+    }, 300)
 })
 
 $sendLocationButton.addEventListener('click', () => {

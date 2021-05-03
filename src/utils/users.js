@@ -2,7 +2,7 @@ const users = []
 
 const addUser = ({ id, username, room }) => {
     // Clean the data
-    username = username.trim().toLowerCase()
+    username = username.trim().charAt(0).toUpperCase() + username.slice(1)
     room = room.trim().toLowerCase()
 
     // Validate the data
@@ -14,7 +14,7 @@ const addUser = ({ id, username, room }) => {
 
     // Check for existing user
     const existingUser = users.find((user) => {
-        return user.room === room && user.username === username
+        return user.room.toLowerCase() === room.toLowerCase() && user.username.toLowerCase() === username.toLowerCase()
     })
 
     // Validate username
