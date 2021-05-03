@@ -223,7 +223,6 @@ button:disabled {
 .compose {
   display: flex;
   flex-shrink: 0;
-  margin-top: 20px;
   padding: 20px;
 }
 
@@ -249,6 +248,7 @@ button:disabled {
 .room-title {
   font-weight: 600;
   text-transform: capitalize;
+  text-align: center;
   font-size: 22px;
   background: rgb(43, 32, 68);
   display: flex;
@@ -297,6 +297,17 @@ button:disabled {
   }
 }
 
+@media only screen and (max-width: 800px) {
+  .list-title {
+    font-size: 18px;
+  }
+
+  .users {
+    padding: 10px 30px;
+    font-size: 16px;
+  }
+}
+
 @media only screen and (max-width: 465px) {
   .chat__headerSide {
     width: 220px;
@@ -321,15 +332,6 @@ button:disabled {
 
   .compose input {
     margin: 0 0 0 0;
-  }
-
-  .list-title {
-    font-size: 18px;
-  }
-
-  .users {
-    padding: 10px 30px;
-    font-size: 16px;
   }
 }
 
