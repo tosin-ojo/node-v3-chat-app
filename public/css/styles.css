@@ -181,6 +181,13 @@ button:disabled {
 
 /* Message Styles */
 
+.message__admin {
+  text-align: center;
+  font-weight: 600;
+  margin: 20px;
+  font-style: italic;
+}
+
 .message {
   margin-bottom: 20px;
   width: fit-content;
